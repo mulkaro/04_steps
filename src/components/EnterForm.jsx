@@ -1,8 +1,12 @@
 import './../index.css';
 import React from 'react';
+import DatePicker from 'react-datepicker';
+import {useState} from 'react';
 
 function EnterForm({onChange, onSubmit, form}) {
+  const [selDate, setSelDate] = useState(new Date());
   return (
+    <div>
       <form name="frmInputData" className="form"  onSubmit={onSubmit} vertical-align="middle" display="inline-block">
         <table>
           <tr>
@@ -16,6 +20,7 @@ function EnterForm({onChange, onSubmit, form}) {
           <tr>
             <td>
               <input className="input" type="text" onChange={onChange} name="date" value={form.date}/>
+
             </td>
             <td>
               <input className="input" type="text" onChange={onChange} name="dist" value={form.dist}/>
@@ -25,8 +30,9 @@ function EnterForm({onChange, onSubmit, form}) {
             </td>
           </tr>
         </table>
-        <br></br>
       </form>
+      <br></br>
+    </div>
   )
 }
 

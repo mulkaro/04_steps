@@ -5,9 +5,6 @@ import shortid from 'shortid';
 
 function DataControl() {
 
-
-  //const walksList = [];
-
   const [walks, setWalks] = useState([]);
 
   const [search, setSearch] =useState("");
@@ -16,6 +13,17 @@ function DataControl() {
     //id: '',
     date: '',
     dist: ''
+  });
+
+  let sortedWalks = [...walks];
+  walks.sort((a, b) => {
+    if (a.date < b.date) {
+      return -1;
+    }
+    if (a.date > b.date) {
+      return 1;
+    }
+    return 0;
   });
 
   const handleChange = (evt) => {
@@ -27,27 +35,9 @@ function DataControl() {
     setSearch(evt.target.value)
   };
 
-/*  const handleFormChange = (evt) => {
-    const { edtdate, edtdist, datevalue, distvalue} = evt.target;
-    setForm((prevForm) => ({... prevForm, [edtdate]: datevalue, [edtdist]: distvalue}));
-  };
-
-  const handleAddRow = (evt) => {
-    evt.preventDefault();
-    const newWalk = { 
-      id: shortid.generate(), 
-      date: frmInputData.date,
-      dist: frmInputData.dist
-      };
-    setWalks((prevRow => [...prevRow, newWalk]));
-    setInputData({date: newWalk.date, dist: newWalk.dist});
-    walksList.append(newWalk);
-    //setTableForm({edtdate: newWalk.edtdate, edtdist: newWalk.edtdist});
-    console.log(walksList);
-  };
-*/  
-  const handleDeleteRow = (walks) => () => {
-    setWalks(prevWalks => prevWalks.filter(o => o.id !== walks.id))
+  function handleDeleteRow(id) {
+    setWalks(prevWalks => walks.filter((row) => row.id !== id)
+      )
   }; 
 
   const handleSubmit = (evt) => {
@@ -57,19 +47,20 @@ function DataControl() {
       date: frmInputData.date,
       dist: frmInputData.dist
       };
-    //const newWalk = (data) => ([...data, frmInputData]);
-    //setWalks(newWalk);
     setWalks((prevRow => [...prevRow, newWalk]));
     const emptyInput = {id: '', date: '', dist: ''};
     setInputData(emptyInput);
   };
 
-  const handleEditRow = (evt) => {};
+  function handleEditRow (id) {
+    frmInputData.date = walks[id].date;
+    frmInputData.dist = walks[id].dist;
+  };
 
 return(
     <div className="app">
         <EnterForm onChange={handleChange} onSubmit={handleSubmit} form={frmInputData} />
-        <TableForm onEditdRow={handleEditRow} onDeletedRow={handleDeleteRow} data={walks} />
+        <TableForm onEditRow={handleEditRow} onDeletedRow={handleDeleteRow} data={walks} />
     </div>
 )
 }

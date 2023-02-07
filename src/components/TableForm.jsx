@@ -4,7 +4,7 @@ import editpng from './../img/edit.png';
 import delpng from './../img/delete.png';
 import './DataControl';
 
-function TableForm({onEditdRow, onDeletedRow, data}) {
+function TableForm({onEditRow, onDeletedRow, data}) {
   return (
     <div>
       <table className="table">
@@ -18,14 +18,14 @@ function TableForm({onEditdRow, onDeletedRow, data}) {
         <tbody>
           {data.map((row) => {
             return (
-              <tr >
-                <td> {row.curdate}</td>
-                <td> {row.curdist}</td>
+              <tr key={row.id}>
+                <td> {row.date}</td>
+                <td> {row.dist}</td>
                 <td>
-                  <input type="image" src={editpng} onClick={onEditdRow} alt="Изменить показания"/>
+                  <input type="image" src={editpng} onClick={() => onEditRow(row.id)} alt="Изменить показания" />
                 </td>
                 <td>
-                  <input type="image" src={delpng} onClick={onDeletedRow} alt="Удалить показания"/>
+                  <input type="image" src={delpng} onClick={() => onDeletedRow(row.id)} alt="Удалить показания" />
                 </td>
               </tr>
             )}
